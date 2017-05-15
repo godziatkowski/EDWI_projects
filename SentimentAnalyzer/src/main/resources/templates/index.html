@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Auction Helper</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <link rel="stylesheet" 
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+              crossorigin="anonymous" />
+        <link rel="stylesheet" 
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+              integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" 
+              crossorigin="anonymous" />
+        <link rel="stylesheet" 
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-resource.js"/>
+
+        <script src="app.js" ></script>
+        <script src="main.controller.js" ></script>
+        <script src="search-engine.service.js" ></script>
+
+    </head>
+    <body ng-app="AuctionHelper">
+        <div class="container-fluid view-container">
+            <div ng-controller="MainController">
+                <div class="input-group" style="padding-top: 35px">
+                    <input type="text" class="form-control" placeholder="Szukaj..." ng-model="query" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="search()">Wyszukaj</button>
+                    </span>
+                </div>
+                <div class="text-center" ng-if="sites">
+                    <h3>
+                        Result sites:
+                    </h3>
+                    <div class="row">
+                        <div class="col-xs-6 col-xs-offset-3" ng-repeat="site in sites track by $index">
+                            <div class="panel panel-info" style="margin-bottom: 30px">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-10">
+                                            <div > Wynik nr {{$index + 1}} ze strony: <strong>{{site.displayLink}}</strong></div>
+                                            <a target="blank" href="{{site.link}}"> {{site.link}}</a>
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <button class="btn btn-info btn-block" ng-click="site.details = true" ng-if="!site.details">
+                                                Pokaż więcej 
+                                            </button>
+                                            <button class="btn btn-info btn-block" ng-click="site.details = false" ng-if="site.details">
+                                                Pokaż mniej 
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="panel-body" ng-if="site.details">
+                                    <div>{{site.snippet}}</div>
+                                    <div ng-if="site.sentiment">
+                                        <div>
+                                            Oznaczone jako:&nbsp;
+                                            <span>
+                                                <strong ng-if="site.sentiment.label === 'pos'">pozytywny</strong>
+                                                <strong ng-if="site.sentiment.label === 'neutral'">neutralny</strong>
+                                                <strong ng-if="site.sentiment.label === 'neg'">negatywny</strong>
+                                            </span>
+                                        </div>
+                                        <h4>Prawdopodobienstwo:</h4>
+                                        <div class="row">
+                                            <div class="col-xs-4"><strong>Pozytywności:</strong>&nbsp;{{site.sentiment.probability.pos}}</div>
+                                            <div class="col-xs-4"><strong>Neutralności:</strong>&nbsp;{{site.sentiment.probability.neutral}}</div>
+                                            <div class="col-xs-4"><strong>Negatywności:</strong>&nbsp;{{site.sentiment.probability.neg}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
