@@ -39,7 +39,13 @@
                     </h3>
                     <div class="row">
                         <div class="col-xs-6 col-xs-offset-3" ng-repeat="site in sites track by $index">
-                            <div class="panel panel-info" style="margin-bottom: 30px">
+                            <div class="panel" style="margin-bottom: 30px"
+                                 ng-class="{
+                                     'panel-warning': !site.sentiment,
+                                     'panel-success': isPositive(site),
+                                     'panel-info': isNeutral(site),
+                                     'panel-danger': isNegative(site)
+                                 }">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col-xs-10">
@@ -79,6 +85,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="alert alert-danger" ng-if="error">
+                    Przepraszamy, twoje zapytanie nie zostało poprawnie obsłużone - jeśli błąd powtarza się spróbuj później lub skontaktuj się z osobami odpowiedzialnymi za stronę.
                 </div>
             </div>
         </div>

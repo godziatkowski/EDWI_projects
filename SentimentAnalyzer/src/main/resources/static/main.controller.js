@@ -9,8 +9,10 @@
     function MainController($scope, SearchQuery) {
 
         $scope.query = '';
-
         $scope.search = search;
+        $scope.isPositive = isPositive;
+        $scope.isNeutral = isNeutral;
+        $scope.isNegative = isNegative;
 
         function search() {
             if ($scope.query) {
@@ -24,9 +26,24 @@
                                 $scope.sites[0].details = false;
                             }
                         }, function (reason) {
-                            console.log(reason)
+                            $scope.error = true;
                         });
             }
+        }
+
+        function isPositive(site) {
+            console.log(site)
+            return site.sentiment && site.sentiment.label === 'pos';
+        }
+
+        function isNeutral(site) {
+            console.log(site)
+            return site.sentiment && site.sentiment.label === 'neutral';
+        }
+
+        function isNegative(site) {
+            console.log(site)
+            return site.sentiment && site.sentiment.label === 'neg';
         }
     }
 
