@@ -38,52 +38,66 @@
                         Result sites:
                     </h3>
                     <div class="row">
-                        <div class="col-xs-6 col-xs-offset-3" ng-repeat="site in sites track by $index">
-                            <div class="panel" style="margin-bottom: 30px"
-                                 ng-class="{
+                        <div class="col-xs-3">
+                            <div ng-if="statistics">
+                                <h3>Statystyki:</h3>
+                                <div><strong>Stwierdzenia pozytywne: </strong>{{statistics.positive}}</div>
+                                <div><strong>Stwierdzenia neutralne: </strong>{{statistics.neutral}}</div>
+                                <div><strong>Stwierdzenia negatywne: </strong>{{statistics.negative}}</div>
+                                <div ng-if="statistics.unrecognized > 0"><strong>Nierozpoznane: </strong>{{statistics.unrecognized}}</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div ng-repeat="site in sites track by $index">
+                                <div class="panel" style="margin-bottom: 30px"
+                                     ng-class="{
                                      'panel-warning': !site.sentiment,
                                      'panel-success': isPositive(site),
                                      'panel-info': isNeutral(site),
                                      'panel-danger': isNegative(site)
                                  }">
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-xs-10">
-                                            <div > Wynik nr {{$index + 1}} ze strony: <strong>{{site.displayLink}}</strong></div>
-                                            <a target="blank" href="{{site.link}}"> {{site.link}}</a>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <button class="btn btn-info btn-block" ng-click="site.details = true" ng-if="!site.details">
-                                                Pokaż więcej 
-                                            </button>
-                                            <button class="btn btn-info btn-block" ng-click="site.details = false" ng-if="site.details">
-                                                Pokaż mniej 
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="panel-body" ng-if="site.details">
-                                    <div>{{site.snippet}}</div>
-                                    <div ng-if="site.sentiment">
-                                        <div>
-                                            Oznaczone jako:&nbsp;
-                                            <span>
-                                                <strong ng-if="site.sentiment.label === 'pos'">pozytywny</strong>
-                                                <strong ng-if="site.sentiment.label === 'neutral'">neutralny</strong>
-                                                <strong ng-if="site.sentiment.label === 'neg'">negatywny</strong>
-                                            </span>
-                                        </div>
-                                        <h4>Prawdopodobienstwo:</h4>
+                                    <div class="panel-heading">
                                         <div class="row">
-                                            <div class="col-xs-4"><strong>Pozytywności:</strong>&nbsp;{{site.sentiment.probability.pos}}</div>
-                                            <div class="col-xs-4"><strong>Neutralności:</strong>&nbsp;{{site.sentiment.probability.neutral}}</div>
-                                            <div class="col-xs-4"><strong>Negatywności:</strong>&nbsp;{{site.sentiment.probability.neg}}</div>
+                                            <div class="col-xs-10">
+                                                <div > Wynik nr {{$index + 1}} ze strony: <strong>{{site.displayLink}}</strong></div>
+                                                <a target="blank" href="{{site.link}}"> {{site.link}}</a>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <button class="btn btn-info btn-block" ng-click="site.details = true" ng-if="!site.details">
+                                                    Pokaż więcej 
+                                                </button>
+                                                <button class="btn btn-info btn-block" ng-click="site.details = false" ng-if="site.details">
+                                                    Pokaż mniej 
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="panel-body" ng-if="site.details">
+                                        <div>{{site.snippet}}</div>
+                                        <div ng-if="site.sentiment">
+                                            <div>
+                                                Oznaczone jako:&nbsp;
+                                                <span>
+                                                    <strong ng-if="site.sentiment.label === 'pos'">pozytywny</strong>
+                                                    <strong ng-if="site.sentiment.label === 'neutral'">neutralny</strong>
+                                                    <strong ng-if="site.sentiment.label === 'neg'">negatywny</strong>
+                                                </span>
+                                            </div>
+                                            <h4>Prawdopodobienstwo:</h4>
+                                            <div class="row">
+                                                <div class="col-xs-4"><strong>Pozytywności:</strong>&nbsp;{{site.sentiment.probability.pos}}</div>
+                                                <div class="col-xs-4"><strong>Neutralności:</strong>&nbsp;{{site.sentiment.probability.neutral}}</div>
+                                                <div class="col-xs-4"><strong>Negatywności:</strong>&nbsp;{{site.sentiment.probability.neg}}</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="alert" style="font-size: large">
+                        <a href="" class="text-center" ng-click="getNextPage()">Pobierz nastepne 10 wyników</a>
                     </div>
                 </div>
                 <div class="alert alert-danger" ng-if="error">
