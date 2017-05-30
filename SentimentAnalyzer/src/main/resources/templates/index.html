@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Auction Helper</title>
+        <title>Sentiment Analyzer</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -15,6 +15,8 @@
               crossorigin="anonymous" />
         <link rel="stylesheet" 
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"/>
 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-resource.js"/>
@@ -32,6 +34,9 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" ng-click="search()">Wyszukaj</button>
                     </span>
+                </div>
+                <div class="text-center" ng-if="loading">
+                    <i class="fa fa-spinner fa-spin fa-3x"></i>
                 </div>
                 <div class="text-center" ng-if="sites">
                     <h3>

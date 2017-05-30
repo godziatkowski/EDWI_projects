@@ -19,6 +19,7 @@
 
         function search() {
             if ($scope.query) {
+                $scope.loading = true;
                 $scope.statistics = undefined;
                 var searchQuery = {};
                 currentPage = 0;
@@ -26,12 +27,14 @@
                 searchQuery.page = currentPage;
                 SearchQuery.search(searchQuery).$promise
                         .then(function (result) {
+                            $scope.loading = false;
                             $scope.sites = result;
                             for (var i = 0; i < $scope.sites.length; i++) {
                                 $scope.sites[0].details = false;
                             }
                             calculateStatistics();
                         }, function (reason) {
+                            $scope.loading = false;
                             $scope.error = true;
                         });
             }
@@ -51,12 +54,14 @@
 
         function getNextPage() {
             if ($scope.query) {
+                $scope.loading = true;
                 var searchQuery = {};
                 currentPage++;
                 searchQuery.searchQuery = angular.copy($scope.query);
                 searchQuery.page = currentPage;
                 SearchQuery.search(searchQuery).$promise
                         .then(function (results) {
+                            $scope.loading = false;
                             for (var resultIndex = 0; resultIndex < results.length; resultIndex++) {
                                 $scope.sites.push(results[resultIndex]);
                             }
@@ -66,6 +71,7 @@
                             calculateStatistics();
                         }, function (reason) {
                             $scope.error = true;
+                            $scope.loading = false;
                         });
             }
 
